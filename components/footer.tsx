@@ -1,0 +1,83 @@
+'use client'
+
+import Link from 'next/link'
+import { Mail, Phone, MapPin, Instagram, Facebook } from 'lucide-react'
+
+export function Footer() {
+  return (
+    <footer className="bg-foreground text-background py-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-5 gap-12 mb-16">
+          <div className="md:col-span-2">
+            <div className="mb-6">
+              <div className="text-3xl font-serif font-bold tracking-wide text-background">
+                MADDIE TAVARES
+              </div>
+              <div className="text-base font-light italic text-background/90 tracking-widest">
+                beauty boutique
+              </div>
+            </div>
+            <p className="text-sm text-background/80 leading-relaxed mb-6">
+              Clínica de Estética Avançada. Transformando beleza em arte desde 2010.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="p-3 bg-background/10 rounded-full hover:bg-background/20 transition">
+                <Instagram size={20} />
+              </a>
+              <a href="#" className="p-3 bg-background/10 rounded-full hover:bg-background/20 transition">
+                <Facebook size={20} />
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-light text-sm uppercase tracking-widest mb-6">Menu</h4>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/" className="hover:text-primary transition">Home</Link></li>
+              <li><Link href="/servicos" className="hover:text-primary transition">Serviços</Link></li>
+              <li><Link href="/sobre" className="hover:text-primary transition">Sobre</Link></li>
+              <li><Link href="/contato" className="hover:text-primary transition">Contato</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-light text-sm uppercase tracking-widest mb-6">Conta</h4>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/login" className="hover:text-primary transition">Login</Link></li>
+              <li><Link href="/registrar" className="hover:text-primary transition">Registrar</Link></li>
+              <li><Link href="/agendar" className="hover:text-primary transition">Agendar</Link></li>
+              <li><Link href="#" className="hover:text-primary transition">Meus Agendamentos</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-light text-sm uppercase tracking-widest mb-6">Contato</h4>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-center gap-3">
+                <Phone size={16} />
+                <span>(238) 333-5512</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail size={16} />
+                <span>maddie@tavares.cv</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin size={16} className="mt-1" />
+                <span>Av. Amilcar Cabral<br />Praia, Cabo Verde</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-background/20 pt-12 text-center text-sm text-background/80">
+          <p>&copy; 2025 MADDIE TAVARES beauty boutique. Todos os direitos reservados.</p>
+          <div className="mt-4 flex justify-center gap-6 text-xs">
+            <Link href="#" className="hover:text-primary transition">Política de Privacidade</Link>
+            <Link href="#" className="hover:text-primary transition">Termos de Serviço</Link>
+            <Link href="#" className="hover:text-primary transition">Cookies</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}

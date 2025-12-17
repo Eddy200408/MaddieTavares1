@@ -82,7 +82,7 @@ export function Navigation() {
             <Link href="/sobre" className="block text-sm text-foreground hover:text-primary py-2">Sobre</Link>
             <Link href="/contato" className="block text-sm text-foreground hover:text-primary py-2">Contato</Link>
             <Link href="/agendar" className="block w-full px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition text-center">
-              ok
+              Agendar
             </Link>
             <Link href="/login" className="block text-sm text-foreground hover:text-primary py-2">Entrar</Link>
           </div>

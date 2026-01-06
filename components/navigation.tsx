@@ -44,7 +44,7 @@ export function Navigation({blackText}:NavigationProps) {
                 beauty boutique
               </div>
                */}
-              <img src="/images/logo.png" alt="Maddie Tavares Logo" className="h-12 w-auto mt-4" />
+              <img src="/images/logo.png" alt="Maddie Tavares Logo" className="h-12 w-auto mt-4" style={{height: '10vh', width: '25vh'}}/>
             </div>
           </Link>
 
@@ -58,7 +58,7 @@ export function Navigation({blackText}:NavigationProps) {
               scrolled 
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
                 : 'bg-white text-foreground hover:bg-white/90'
-            }`}>
+            }`} style={{background: '#e1b01a', color: '#fff'}}>
               Agendar
             </Link>
            <Link href="/login" className={`text-sm transition duration-300 ${linkClass}`}>Entrar</Link>
@@ -79,7 +79,7 @@ export function Navigation({blackText}:NavigationProps) {
         {isOpen && (
           <div className="md:hidden pb-6 space-y-4 bg-background/95 backdrop-blur border-b border-border">
             <Link href="/" className="block text-sm text-foreground hover:text-primary py-2">Home</Link>
-            <Link href="/servicos" className="block text-sm text-foreground hover:text-primary py-2">Serviços</Link>
+            <Link href="/servicos" className="block text-sm text-foreground hover:text-primary py-2">Servicos</Link>
             <Link href="/sobre" className="block text-sm text-foreground hover:text-primary py-2">Sobre</Link>
             <Link href="/contato" className="block text-sm text-foreground hover:text-primary py-2">Contato</Link>
             <Link href="/agendar" className="block w-full px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition text-center">

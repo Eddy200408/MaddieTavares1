@@ -4,9 +4,10 @@ import Image from 'next/image'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Mail, Phone, MapPin, Instagram, Facebook, Youtube } from 'lucide-react'
-
+import Image from 'next/image'
 export default function Contato() {
   return (
+    
     <main className="min-h-screen bg-background">
       <Navigation />
            {/* Hero Section with Parallax Effect */}
@@ -33,13 +34,42 @@ export default function Contato() {
               </div>
             </section>
       
+      <Navigation/>
+      
+
+      <section className="relative h-[70vh] overflow-hidden">
+       {/* Imagem de fundo */}
+      <div className="absolute inset-0">
+      <Image
+      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.38-Q0ic3AXwGqwi7sO917iYnGBMGJwjT0.jpeg"
+      alt="Maddie Tavares Beauty Boutique"
+      fill
+      className="object-cover"
+      />
+       {/* Degradê sobre a imagem */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background"></div>
+      </div>
+
+      {/* Conteúdo sobre a imagem */}
+      <div className="relative h-full flex items-center justify-center text-center px-6">
+      <div className="max-w-4xl">
+      <h1 className="text-5xl md:text-7xl font-light tracking-tight text-white mb-6">
+        Contacto
+      </h1>
+      <p className="text-xl md:text-2xl text-white/90 font-light">
+        Entre em contacto conosco preenchendo o formulário abaixo
+      </p>
+      </div>
+      </div>
+      </section>
+
       <section className="py-20 px-6 pt-32">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16">
             {/* Left Column - Contact Form */}
             <div>
               <h2 className="text-4xl font-light mb-4">Envie sua Mensagem</h2>
-              <p className="text-muted-foreground mb-8">Preencha o formulário abaixo para entrar em contato conosco.</p>
+              <p className="text-muted-foreground mb-8">Preencha o formulário abaixo para entrar em contacto conosco.</p>
               
               <form className="space-y-6">
                 <div>

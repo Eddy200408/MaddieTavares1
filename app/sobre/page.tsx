@@ -1,10 +1,11 @@
-'use client'
+'use client' 
 
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import Image from 'next/image'
 import { Sparkles, Award, Heart, Users, Clock, MapPin } from 'lucide-react'
 import Link from 'next/link'
+import {ImageModal} from '@/components/image-modal'
 
 export default function Sobre() {
   return (
@@ -166,11 +167,10 @@ export default function Sobre() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.38-Q0ic3AXwGqwi7sO917iYnGBMGJwjT0.jpeg"
                 alt="Recepção"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Recepção Elegante</span>
@@ -178,11 +178,10 @@ export default function Sobre() {
             </div>
 
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.44%20%281%29-B4BAhak3JcrX4KDUdCJbmS2S8sLOXY.jpeg"
                 alt="Sala de espera"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Sala de Espera Aconchegante</span>
@@ -190,11 +189,10 @@ export default function Sobre() {
             </div>
 
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.44-32dARCvGwEsIrk9zjFujj50oV2UMCy.jpeg"
                 alt="Spa com banheira"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Spa Premium</span>
@@ -202,11 +200,10 @@ export default function Sobre() {
             </div>
 
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.43-MwiG8j4zfEaRCFa0Rjbw5vdjWHtUKY.jpeg"
                 alt="Sala de tratamento"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Sala de Tratamento</span>
@@ -214,11 +211,10 @@ export default function Sobre() {
             </div>
 
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.46-8c8EvOk90Y36Xm8e1sI58i0Fd2RLcI.jpeg"
                 alt="Quarto de tratamento"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Ambiente Relaxante</span>
@@ -226,11 +222,10 @@ export default function Sobre() {
             </div>
 
             <div className="relative h-80 rounded-3xl overflow-hidden group">
-              <Image
+              <ImageModal
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-17%20at%2021.19.43%20%281%29-hO089841f2PqEX0Pv2Gyo3gAXoapJN.jpeg"
                 alt="Balcão de recepção"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                className="h-48"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <span className="text-white font-light text-xl">Recepção Premium</span>

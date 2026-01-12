@@ -99,7 +99,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "C:\\Users\\Gebruiker\\Desktop\\UTA\\4 ano\\TECNOLOGIAS WEB\\MaddieTavares",
+    "outputFileTracingRoot": "C:\\Users\\USER\\MaddieTavares1",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -289,11 +289,11 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
     "turbopack": {
-      "root": "C:\\Users\\Gebruiker\\Desktop\\UTA\\4 ano\\TECNOLOGIAS WEB\\MaddieTavares"
+      "root": "C:\\Users\\USER\\MaddieTavares1"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "C:\\Users\\Gebruiker\\Desktop\\UTA\\4 ano\\TECNOLOGIAS WEB\\MaddieTavares",
+  "appDir": "C:\\Users\\USER\\MaddieTavares1",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",

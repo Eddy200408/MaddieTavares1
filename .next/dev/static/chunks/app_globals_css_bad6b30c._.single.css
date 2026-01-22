@@ -1318,10 +1318,6 @@
     height: 600px;
   }
 
-  .h-\[700px\] {
-    height: 700px;
-  }
-
   .h-\[750px\] {
     height: 750px;
   }
@@ -3231,16 +3227,8 @@
     padding-block: calc(var(--spacing) * 8);
   }
 
-  .py-10 {
-    padding-block: calc(var(--spacing) * 10);
-  }
-
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
-  }
-
-  .py-18 {
-    padding-block: calc(var(--spacing) * 18);
   }
 
   .py-20 {
@@ -3281,10 +3269,6 @@
 
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
-  }
-
-  .pt-12 {
-    padding-top: calc(var(--spacing) * 12);
   }
 
   .pt-16 {
@@ -3570,6 +3554,10 @@
     .text-background\/90 {
       color: color-mix(in oklab, var(--background) 90%, transparent);
     }
+  }
+
+  .text-black {
+    color: var(--color-black);
   }
 
   .text-blue-600 {
@@ -4795,12 +4783,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:text-gray-900:hover {
-      color: var(--color-gray-900);
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:text-muted-foreground:hover {
       color: var(--muted-foreground);
     }
@@ -4967,10 +4949,6 @@
   .focus\:ring-2:focus {
     --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-
-  .focus\:ring-primary:focus {
-    --tw-ring-color: var(--primary);
   }
 
   .focus\:ring-ring:focus {

@@ -1,53 +1,75 @@
-import type { Metadata } from 'next'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import "./globals.css";
 
-// Metadata do site
 export const metadata: Metadata = {
-  title: 'Maddie Tavares Beauty Boutique | Clínica de Estética Premium',
+  title: "Maddie Tavares Beauty Boutique | Estética & Bem-Estar",
   description:
-    'Clínica de estética e beauty boutique premium com tratamentos inovadores e ambiente luxuoso',
-  generator: 'v0.app',
-  icons: {
-    icon: [
+    "A Maddie Tavares Beauty Boutique é um espaço premium de estética, beleza e bem-estar, com tratamentos inovadores e ambiente luxuoso.",
+  keywords: [
+    "Maddie Tavares Beauty Boutique",
+    "Maddie Tavares",
+    "spa",
+    "estética",
+    "beleza",
+    "beauty boutique",
+    "bem-estar",
+    "tratamentos estéticos",
+    "salão de beleza"
+  ],
+  metadataBase: new URL("https://maddietavares.cv"),
+  openGraph: {
+    title: "Maddie Tavares Beauty Boutique",
+    description:
+      "Espaço premium de estética, beleza e bem-estar. Agende o seu atendimento.",
+    url: "https://maddietavares.cv",
+    siteName: "Maddie Tavares Beauty Boutique",
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Maddie Tavares Beauty Boutique",
       },
     ],
-    apple: '/apple-icon.png',
+    locale: "pt_PT",
+    type: "website",
   },
-}
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: [
+      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
+  },
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt">
       <head>
-        {/* Importando Geist e Geist Mono via Google Fonts */}
+        {/* Google Fonts – Geist */}
         <link
           href="https://fonts.googleapis.com/css2?family=Geist&family=Geist+Mono&display=swap"
           rel="stylesheet"
         />
       </head>
       <body
-        style={{ fontFamily: "'Geist', 'Geist Mono', sans-serif" }}
         className="antialiased"
+        style={{ fontFamily: "'Geist', 'Geist Mono', sans-serif" }}
       >
         {children}
         <Analytics />
       </body>
     </html>
-  )
+  );
 }

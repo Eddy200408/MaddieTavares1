@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-
+// Metadata do site
 export const metadata: Metadata = {
   title: 'Maddie Tavares Beauty Boutique | Clínica de Estética Premium',
-  description: 'Clínica de estética e beauty boutique premium com tratamentos inovadores e ambiente luxuoso',
+  description:
+    'Clínica de estética e beauty boutique premium com tratamentos inovadores e ambiente luxuoso',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -36,7 +34,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`font-sans antialiased`}>
+      <head>
+        {/* Importando Geist e Geist Mono via Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Geist&family=Geist+Mono&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        style={{ fontFamily: "'Geist', 'Geist Mono', sans-serif" }}
+        className="antialiased"
+      >
         {children}
         <Analytics />
       </body>

@@ -2,90 +2,132 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, User, LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface NavigationProps {
   blackText?: boolean
 }
 
-
-
-export function Navigation({blackText}:NavigationProps) {
+export function Navigation({ blackText }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isLogged, setIsLogged] = useState(false)
+  const [userName, setUserName] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
     }
     window.addEventListener('scroll', handleScroll)
+
+    // Lógica de Login: Executada apenas no cliente
+    const token = localStorage.getItem('token')
+    const name = localStorage.getItem('user_name')
+    if (token) {
+      setIsLogged(true)
+      setUserName(name || 'Cliente')
+    }
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const linkClass = scrolled || blackText 
-  ? 'text-black hover:text-primary'   // fundo claro ou rolado
-  : 'text-white hover:text-accent'    // fundo escuro, default
+  const handleLogout = () => {
+    localStorage.clear()
+    setIsLogged(false)
+    router.push('/login')
+  }
 
-  
+  // Define a cor dos links baseada no scroll ou propriedade blackText
+  const linkClass = scrolled || blackText 
+    ? 'text-black hover:text-[#e1b01a]' 
+    : 'text-white hover:text-[#e1b01a]'
+
   return (
     <nav className={`fixed top-0 z-50 w-full transition-all duration-300 ${
       scrolled 
-        ? 'bg-background/95 backdrop-blur border-b border-border shadow-md' 
-        : 'bg-transparent'
+        ? 'bg-white/95 backdrop-blur border-b border-border shadow-md h-20' 
+        : 'bg-transparent h-24'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24">
-          <Link href="/" className="flex-shrink-0 group">
-            <div className="text-left">
-              {/*<div className="text-2xl font-serif font-bold tracking-wide text-primary group-hover:scale-105 transition-transform duration-300">
-                MADDIE TAVARES
-              </div>
-              <div className="text-sm font-light italic text-primary/80 tracking-widest -mt-1">
-                beauty boutique
-              </div>
-               */}
-              <img src="/images/logo.png" alt="Maddie Tavares Logo" className="h-12 w-auto mt-4" style={{height: '10vh', width: '25vh'}}/>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex justify-between items-center h-full">
+          
+          {/* LOGO */}
+          <Link href="/" className="flex-shrink-0">
+            <img 
+              src="/images/logo.png" 
+              alt="Maddie Tavares Logo" 
+              className="transition-all duration-300"
+              style={{ height: scrolled ? '7vh' : '9vh', width: 'auto' }}
+            />
           </Link>
 
-          {/* Desktop Menu */}
+          {/* Desktop Menu - GARANTINDO QUE TODOS OS LINKS APARECEM */}
           <div className="hidden md:flex gap-8 items-center">
-           <Link href="/" className={`text-sm transition duration-300 ${linkClass}`}>Home</Link>
-           <Link href="/servicos" className={`text-sm transition duration-300 ${linkClass}`}>Serviços</Link>
-           <Link href="/sobre" className={`text-sm transition duration-300 ${linkClass}`}>Sobre</Link>
-           <Link href="/contato" className={`text-sm transition duration-300 ${linkClass}`}>Contacto</Link>
-            <Link href="/agendar" className={`luxury-button ${
-              scrolled 
-                ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                : 'bg-white text-foreground hover:bg-white/90'
-            }`} style={{background: '#e1b01a', color: '#fff'}}>
+            <Link href="/" className={`text-sm font-medium transition ${linkClass}`}>Home</Link>
+            <Link href="/servicos" className={`text-sm font-medium transition ${linkClass}`}>Serviços</Link>
+            <Link href="/sobre" className={`text-sm font-medium transition ${linkClass}`}>Sobre</Link>
+            <Link href="/contato" className={`text-sm font-medium transition ${linkClass}`}>Contacto</Link>
+            
+            <Link 
+              href="/agendar" 
+              className="px-6 py-2 bg-[#e1b01a] text-white rounded-full text-sm font-bold hover:brightness-110 transition shadow-lg"
+            >
               Agendar
             </Link>
-           <Link href="/login" className={`text-sm transition duration-300 ${linkClass}`}>Entrar</Link>
+
+            {/* ÁREA CONDICIONAL: LOGIN OU PERFIL */}
+            {isLogged ? (
+              <div className="flex items-center gap-6 pl-4 border-l border-gray-200">
+                <Link href="/perfil" className={`flex items-center gap-2 text-sm font-bold ${linkClass}`}>
+                  <User size={18} className="text-[#e1b01a]" />
+                  <span className="max-w-[100px] truncate">{userName.split(' ')[0]}</span>
+                </Link>
+                <button 
+                  onClick={handleLogout} 
+                  className="text-gray-400 hover:text-red-500 transition"
+                  title="Sair"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <Link href="/login" className={`text-sm font-medium ${linkClass}`}>
+                Entrar
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <button 
-            className={`md:hidden transition duration-300 ${
-              scrolled ? 'text-foreground' : 'text-white'
-            }`}
+            className={`md:hidden p-2 rounded-lg transition ${scrolled || blackText ? 'text-black' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - CORRIGIDO */}
         {isOpen && (
-          <div className="md:hidden pb-6 space-y-4 bg-background/95 backdrop-blur border-b border-border">
-            <Link href="/" className="block text-sm text-foreground hover:text-primary py-2">Home</Link>
-            <Link href="/servicos" className="block text-sm text-foreground hover:text-primary py-2">Servicos</Link>
-            <Link href="/sobre" className="block text-sm text-foreground hover:text-primary py-2">Sobre</Link>
-            <Link href="/contato" className="block text-sm text-foreground hover:text-primary py-2">Contato</Link>
-            <Link href="/agendar" className="block w-full px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition text-center">
-              Agendar
-            </Link>
-            <Link href="/login" className="block text-sm text-foreground hover:text-primary py-2">Entrar</Link>
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 p-6 space-y-4 shadow-xl text-black">
+            <Link href="/" onClick={() => setIsOpen(false)} className="block text-base font-medium">Home</Link>
+            <Link href="/servicos" onClick={() => setIsOpen(false)} className="block text-base font-medium">Servicos</Link>
+            <Link href="/sobre" onClick={() => setIsOpen(false)} className="block text-base font-medium">Sobre</Link>
+            <Link href="/contato" onClick={() => setIsOpen(false)} className="block text-base font-medium">Contato</Link>
+            <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
+               <Link href="/agendar" onClick={() => setIsOpen(false)} className="w-full py-3 bg-[#e1b01a] text-white rounded-xl text-center font-bold">
+                Agendar Agora
+              </Link>
+              {isLogged ? (
+                <>
+                  <Link href="/perfil" onClick={() => setIsOpen(false)} className="text-gray-600 font-medium">Meu Perfil</Link>
+                  <button onClick={handleLogout} className="text-red-500 font-medium text-left">Sair da Conta</button>
+                </>
+              ) : (
+                <Link href="/login" onClick={() => setIsOpen(false)} className="text-gray-600 font-medium">Fazer Login</Link>
+              )}
+            </div>
           </div>
         )}
       </div>

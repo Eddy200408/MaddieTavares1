@@ -1,212 +1,298 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
+import type React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Eye, EyeOff, Loader2, Mail, Lock, Phone, User } from "lucide-react";
+import api from "@/lib/api";
 
 export default function Login() {
-  const router = useRouter()
-  const [activeTab, setActiveTab] = useState<"login" | "registro">("login")
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<"login" | "registro">("login");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPass, setShowPass] = useState(false);
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     telefone: "",
     senha: "",
     confirmarSenha: "",
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (activeTab === "login") {
-      const isReceptionist = formData.email.includes("@maddietavares.com") || formData.email.includes("admin")
-
-      if (isReceptionist) {
-        alert("Login de recepcionista realizado com sucesso!")
-        router.push("/admin/agendamentos")
-      } else {
-        alert("Login realizado com sucesso!")
-        router.push("/")
-      }
-    } else {
-      if (formData.senha !== formData.confirmarSenha) {
-        alert("As senhas não coincidem!")
-        return
-      }
-      alert("Registro realizado com sucesso!")
-      setActiveTab("login")
+    const { name, value } = e.target;
+    if (name === "telefone") {
+      const apenasNumeros = value.replace(/\D/g, "").slice(0, 7);
+      setFormData({ ...formData, [name]: apenasNumeros });
+      return;
     }
-  }
+    setFormData({ ...formData, [name]: value });
+  };
 
+ const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+
+    try {
+      if (activeTab === "registro") {
+        // ... sua lógica de registro permanece igual ...
+        if (formData.telefone.length !== 7) { setError("O telefone deve ter 7 dígitos."); setLoading(false); return; }
+        if (formData.senha !== formData.confirmarSenha) { setError("As senhas não coincidem."); setLoading(false); return; }
+
+        await api.post("/auth/registrar", {
+          nome: formData.nome,
+          email: formData.email,
+          telefone: formData.telefone,
+          senha: formData.senha,
+        })
+        alert("Conta criada com sucesso!")
+        setActiveTab("login")
+      } else {
+        // --- 1. LOGIN ---
+        const response = await api.post("/auth/login", {
+          email: formData.email,
+          password: formData.senha,
+        })
+
+        // --- 2. GRAVAR DADOS NA SESSÃO LOCAL ---
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("user_role", response.data.role)
+        localStorage.setItem("user_name", response.data.usuario.nome)
+
+        const role = response.data.role
+        const token = response.data.token
+
+        // --- 3. DECISÃO DE REDIRECIONAMENTO DINÂMICO ---
+        if (role === 'admin' || role === 'funcionario' || role === 'profissional' || role === 'recepcionista') {
+          
+          // Detecta se o site está rodando no PC ou na Internet
+          const isProduction = window.location.hostname !== "localhost";
+          
+          const DASHBOARD_URL = isProduction 
+            ? "https://admin.maddietavares.cv"  // URL Real
+            : "http://localhost:3001";          // URL de Teste
+
+          console.log("Redirecionando para Dashboard em:", DASHBOARD_URL);
+          
+          // Enviamos para a página de bypass que você criou no outro projeto
+          window.location.href = `${DASHBOARD_URL}/login-bypass?token=${token}&role=${role}`;
+          
+        } else {
+          // Cliente normal fica no site principal
+          window.location.href = "/perfil";
+        }
+      }
+    } catch (err: any) {
+      const msg = err.response?.data?.message || "Erro na autenticação."
+      setError(msg)
+    } finally {
+      setLoading(false)
+    }
+  };
+  
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="relative z-50">
-        <Navigation />
-      </div>
+    <div className="flex flex-col min-h-screen bg-[#fcfaf8]">
+      <Navigation />
 
-      <main className="flex-1 relative flex items-center justify-center p-6 py-20">
+      <main className="flex-1 relative flex items-center justify-center p-6 py-28">
         <div className="absolute inset-0 z-0">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url(/images/whatsapp-20image-202025-11-17-20at-2021.jpeg)",
-              filter: "blur(1px) brightness(0.4)",
+              backgroundImage: "url('/bg-spa.jpg')",
+              filter: "brightness(0.4) blur(3px)",
             }}
           />
         </div>
 
         <div className="relative z-10 w-full max-w-md">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-            <div className="text-center mb-10">
-              <div className="text-4xl font-serif font-bold tracking-wide text-primary mb-1 text-center"><img src="/images/logo.png" alt="Maddie Tavares Logo" className="h-12 w-auto mt-4" style={{height: '10vh', width: '25vh'}}/></div>
-              <div className="text-lg font-light italic text-primary/80 tracking-widest">beauty boutique</div>
+          <div className="bg-white rounded-4xl shadow-2xl p-8 md:p-12 border border-white/20">
+            <div className="text-center mb-8">
+              <img
+                src="/images/logo.png"
+                alt="Maddie Tavares"
+                className="h-16 mx-auto mb-2"
+              />
+              <p className="text-[#d4af37] italic text-xs tracking-[0.3em] uppercase font-light">
+                beauty boutique
+              </p>
             </div>
 
-            <div className="flex gap-2 mb-8">
+            <div className="flex gap-2 mb-8 bg-gray-50 p-1 rounded-2xl">
               <button
+                type="button"
                 onClick={() => setActiveTab("login")}
-                className={`flex-1 py-3 px-6 rounded-xl font-medium transition ${
-                  activeTab === "login" ? "bg-primary text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                  activeTab === "login"
+                    ? "bg-white text-[#d4af37] shadow-sm"
+                    : "text-gray-400"
                 }`}
               >
                 Login
               </button>
               <button
+                type="button"
                 onClick={() => setActiveTab("registro")}
-                className={`flex-1 py-3 px-6 rounded-xl font-medium transition ${
-                  activeTab === "registro" ? "bg-primary text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                  activeTab === "registro"
+                    ? "bg-white text-[#d4af37] shadow-sm"
+                    : "text-gray-400"
                 }`}
               >
                 Registro
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="mb-6 p-3 bg-red-50 text-red-600 text-xs rounded-xl text-center border border-red-100">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
               {activeTab === "registro" && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
-                    <input
-                      type="text"
-                      name="nome"
-                      value={formData.nome}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary transition"
-                      placeholder="Seu nome completo"
-                    />
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mb-1">
+                      Nome Completo
+                    </label>
+                    <div className="relative">
+                      <User
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+                        size={18}
+                      />
+                      <input
+                        type="text"
+                        name="nome"
+                        required
+                        value={formData.nome}
+                        onChange={handleChange}
+                        className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#d4af37] transition-all text-sm outline-none"
+                        placeholder="Nome e apelido"
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
-                    <input
-                      type="tel"
-                      name="telefone"
-                      value={formData.telefone}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary transition"
-                      placeholder="(+238) XXXX-XXXX"
-                    />
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mb-1">
+                      Telefone (7 dígitos)
+                    </label>
+                    <div className="relative">
+                      <Phone
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+                        size={18}
+                      />
+                      <input
+                        type="tel"
+                        name="telefone"
+                        required
+                        value={formData.telefone}
+                        onChange={handleChange}
+                        className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#d4af37] transition-all text-sm outline-none"
+                        placeholder="9XXXXXX"
+                      />
+                    </div>
                   </div>
                 </>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary transition"
-                  placeholder="seumail@exemplo.com"
-                />
+                <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mb-1">
+                  Email
+                </label>
+                <div className="relative">
+                  <Mail
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+                    size={18}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#d4af37] transition-all text-sm outline-none"
+                    placeholder="exemplo@mail.com"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Senha</label>
-                <input
-                  type="password"
-                  name="senha"
-                  value={formData.senha}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary transition"
-                  placeholder="••••••••"
-                />
+                <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mb-1">
+                  Senha
+                </label>
+                <div className="relative">
+                  <Lock
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+                    size={18}
+                  />
+                  <input
+                    type={showPass ? "text" : "password"}
+                    name="senha"
+                    required
+                    value={formData.senha}
+                    onChange={handleChange}
+                    className="w-full pl-12 pr-12 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#d4af37] transition-all text-sm outline-none"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-[#d4af37]"
+                  >
+                    {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
 
               {activeTab === "registro" && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Confirmar Senha</label>
-                  <input
-                    type="password"
-                    name="confirmarSenha"
-                    value={formData.confirmarSenha}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary transition"
-                    placeholder="••••••••"
-                  />
-                </div>
-              )}
-
-              {activeTab === "login" && (
-                <div className="text-right">
-                  <Link href="#" className="text-sm text-primary hover:underline">
-                    Esqueceu a senha?
-                  </Link>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mb-1">
+                    Confirmar Senha
+                  </label>
+                  <div className="relative">
+                    <Lock
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+                      size={18}
+                    />
+                    <input
+                      type="password"
+                      name="confirmarSenha"
+                      required
+                      value={formData.confirmarSenha}
+                      onChange={handleChange}
+                      className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#d4af37] transition-all text-sm outline-none"
+                      placeholder="Repita a senha"
+                    />
+                  </div>
                 </div>
               )}
 
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition shadow-lg"
+                disabled={loading}
+                className="w-full py-4 bg-[#d4af37] hover:bg-[#b8962e] text-white rounded-2xl font-bold shadow-xl shadow-yellow-700/20 transition-all flex items-center justify-center gap-3 mt-6 disabled:opacity-50"
               >
-                {activeTab === "login" ? "Entrar" : "Criar Conta"}
+                {loading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : activeTab === "login" ? (
+                  "Entrar"
+                ) : (
+                  "Criar Conta"
+                )}
               </button>
             </form>
-
-            {activeTab === "login" && (
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600">
-                  Não tem uma conta?{" "}
-                  <button onClick={() => setActiveTab("registro")} className="text-primary hover:underline font-medium">
-                    Crie agora
-                  </button>
-                </p>
-              </div>
-            )}
-
-            {activeTab === "registro" && (
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600">
-                  Já tem uma conta?{" "}
-                  <button onClick={() => setActiveTab("login")} className="text-primary hover:underline font-medium">
-                    Faça login
-                  </button>
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </main>
 
-      <div className="relative z-50">
-        <Footer />
-      </div>
+      <Footer />
     </div>
-  )
+  );
 }

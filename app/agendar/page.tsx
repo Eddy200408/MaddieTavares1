@@ -571,20 +571,7 @@ export default function Agendar() {
                           : "border-border hover:border-primary/50"
                       }`}
                     >
-                      <CreditCard size={32} className="mx-auto mb-3" />
-                      <p className="font-medium">Cartão de Crédito</p>
-                      <p className="text-xs mt-2 opacity-80">Em até 3x sem juros</p>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("debit")}
-                      className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
-                        paymentMethod === "debit"
-                          ? "bg-primary border-primary text-primary-foreground"
-                          : "border-border hover:border-primary/50"
-                      }`}
-                    >
+            
                       <Wallet size={32} className="mx-auto mb-3" />
                       <p className="font-medium">Cartão de Débito</p>
                       <p className="text-xs mt-2 opacity-80">Pagamento à vista</p>

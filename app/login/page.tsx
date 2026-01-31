@@ -68,7 +68,7 @@ export default function Login() {
         <div className="relative z-10 w-full max-w-md">
           <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
             <div className="text-center mb-10">
-              <div className="text-4xl font-serif font-bold tracking-wide text-primary mb-1 text-center"><img src="/images/logo.png" alt="Maddie Tavares Logo" className="h-12 w-auto mt-4" style={{height: '10vh', width: '25vh'}}/></div>
+              <div className="text-4xl font-serif font-bold tracking-wide text-primary mb-1 text-center">Maddie Tavares</div>
               <div className="text-lg font-light italic text-primary/80 tracking-widest">beauty boutique</div>
             </div>
 

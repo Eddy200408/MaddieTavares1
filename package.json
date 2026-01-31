@@ -6,7 +6,10 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "migrate:cloudinary": "python cloudinary-migrate.py",
+    "migrate:cloudinary:node": "node cloudinary-migrate.js",
+    "setup:cloudinary": "python setup-cloudinary-preset.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

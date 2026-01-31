@@ -12,7 +12,7 @@ export default function Servicos() {
       nome: 'Harmonização Facial Completa',
       preco: '35.000 Esc',
       descricao: 'O tratamento mais completo para realçar sua beleza natural. Análise facial 3D, bioestimulação e preenchimentos estratégicos.',
-      imagem: '/luxury-facial-harmonization-treatment.jpg',
+      imagem: '/images/facial.jpg',
       tag: 'MAIS PROCURADO',
       beneficios: ['Resultado natural', 'Sem cirurgia', 'Efeito imediato'],
       icon: Crown
@@ -30,7 +30,7 @@ export default function Servicos() {
       nome: 'Radiofrequência + Microagulhamento',
       preco: '22.000 Esc',
       descricao: 'A combinação perfeita para rejuvenescimento. Estimula colágeno profundo e renova completamente a textura da pele.',
-      imagem: '/facial-skin-treatment-technology.jpg',
+      imagem: '/images/whatsapp-20image-202025-11-17-20at-2021.jpeg',
       tag: 'TECNOLOGIA AVANÇADA',
       beneficios: ['Anti-idade', 'Lifting natural', 'Pele firme'],
       icon: Zap
